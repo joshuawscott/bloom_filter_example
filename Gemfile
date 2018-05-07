@@ -1,3 +1,7 @@
 source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+
+gem 'bitarray'
+gem 'murmurhash3'
+gem 'rspec'
