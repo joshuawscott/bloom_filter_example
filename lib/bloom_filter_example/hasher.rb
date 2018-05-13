@@ -1,20 +1,15 @@
 require 'murmurhash3'
 module BloomFilterExample
+  # Runs a murmurhash multiple times with different seed values to return bit offsets to be set
+  # in the bloom filter.
   class Hasher
-    # Runs a murmurhash multiple times with different seed values to return bit offsets to be set
-    # in the bloom filter.
-
     def initialize(iterations, max)
       @iterations = iterations
-      @hash_runs = (@iterations / 4.0).ceil
       @max = max
     end
 
     def hash(value)
-      hashes = @hash_runs.times.map {|n|
-        # This returns 4 32-bit integers.
-        MurmurHash3::V128.str_hash(value, n).map {|h| h % @max}
-      }.flatten.take(@iterations)
+      Array.new(@iterations) { |n| MurmurHash3::V32.str_hash(value, n) % @max }
     end
   end
 end
